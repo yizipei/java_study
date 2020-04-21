@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="studentDao2" class="com.yi.aop.StudentDaoImpl"></bean>
+
+    <!--配置通知-->
+    <bean id="myAroundAdvice" class="com.yi.aop.MyAroundAdvice"></bean>
+
+    <!--一般切面使用通知, 对目标类某个方法增强, 需要配置一个带有切入点的切面-->
+    <bean id="myAdvise" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <!--<property name="pattern" value=".*save.*"></property>-->
+
+        <property name="patterns" value=".*save.*, .*delete.*"></property>
+
+        <property name="advice" ref="myAroundAdvice"></property>
+    </bean>
+
+    <!--配置产生代理-->
+    <bean id="studentDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="studentDao2"></property>
+
+        <property name="proxyTargetClass" value="true"></property>
+
+        <property name="interceptorNames" value="myAdvise"></property>
+    </bean>
+</beans>

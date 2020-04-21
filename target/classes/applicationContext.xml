@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--config target-->
+    <bean id="studentDao" class="com.yi.aop.StudentDaoImpl"></bean>
+
+    <!--前置通知-->
+    <bean id="myBeforeAdvice" class="com.yi.aop.MyBeforeAdvice"></bean>
+
+    <!--spring aop 产生代理对象-->
+    <bean id="studentDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--目标类-->
+        <property name="target" ref="studentDao"></property>
+        <!--实现的接口-->
+        <property name="proxyInterfaces" value="com.yi.aop.StudentDao"></property>
+        <!--拦截的名称-->
+        <property name="interceptorNames" value="myBeforeAdvice"></property>
+    </bean>
+</beans>

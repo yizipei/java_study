@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="studentDao3" class="com.yi.aop.StudentDaoImpl"/>
+
+
+    <!--配置通知-->
+    <bean id="myBeforeAdvice" class="com.yi.aop.MyBeforeAdvice"/>
+    <bean id="myAroundAdvice" class="com.yi.aop.MyAroundAdvice" />
+    
+<!--    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">-->
+<!--        <property name="beanNames" value="*Dao*" />-->
+<!--        <property name="interceptorNames" value="myBeforeAdvice" />-->
+<!--    </bean>-->
+    <!--配置切面-->
+    <bean id="myAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="pattern" value="com\.yi\.aop\.StudentDaoImpl\.save" />
+        <property name="advice" ref="myAroundAdvice" />
+    </bean>
+
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+
+    </bean>
+</beans>
